@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="SAFY 스마트 안전교육 로봇독 발표 자료 — 현장 신입을 위한 교육독">
+<meta property="og:title" content="현장 신입 교육독">
+<meta property="og:image" content="img/cover.jpg">
+<title>현장 신입 교육독</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: one long factory-floor walkthrough — sticky section rail, wide media, safety-yellow used only for wayfinding */
+:root {
+  --bg: #15161a; --surface: #1f2126; --surface-2: #272a31; --line: #363943;
+  --fg: #eceef2; --soft: #b9bdc7; --muted: #868b96;
+  --yellow: #ffc21a; --green: #3ddc84; --red: #ff5a5f; --blue: #4da3ff;
+  --font-body: "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --wrap: 1180px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.65; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: var(--yellow); }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; }
+p { margin: 0; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mono { font-family: var(--font-mono); letter-spacing: .06em; text-transform: uppercase; font-size: 12px; }
+
+/* nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; gap: 16px; padding-block: 10px; }
+.brand { font-weight: 900; font-size: 15px; white-space: nowrap; color: var(--fg); text-decoration: none; }
+.brand b { color: var(--yellow); }
+.nav ul { display: flex; gap: 6px; list-style: none; margin: 0 0 0 auto; padding: 0; overflow-x: auto; scrollbar-width: none; }
+.nav a.tab { display: block; padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); text-decoration: none; font-size: 13px; white-space: nowrap; }
+.nav a.tab.on { background: var(--yellow); border-color: var(--yellow); color: #15161a; font-weight: 700; }
+.nav a.tab:focus-visible, a:focus-visible, video:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+
+/* hero */
+.hero { position: relative; }
+.hero img { display: block; width: 100%; aspect-ratio: 2.38; object-fit: cover; max-height: 560px; }
+.hero .wrap { position: relative; margin-top: clamp(-200px, -16vw, -60px); padding-block: 0 56px; }
+.tag { display: inline-block; background: var(--yellow); color: #15161a; font-weight: 700; padding: 5px 12px; border-radius: 4px; }
+.hero h1 { font-size: clamp(34px, 6vw, 64px); font-weight: 900; margin-top: 14px; letter-spacing: -.01em; }
+.hero p.lead { font-size: clamp(16px, 2vw, 20px); color: var(--soft); margin-top: 10px; }
+.hero p.meta { color: var(--muted); margin-top: 6px; font-size: 14px; }
+.hazard { height: 10px; background: repeating-linear-gradient(-45deg, var(--yellow) 0 14px, var(--bg) 14px 28px); opacity: .9; }
+
+/* sections */
+section.part { padding-block: 72px 24px; scroll-margin-top: 60px; }
+.part-head { display: grid; grid-template-columns: auto 1fr; gap: 4px 20px; align-items: end; margin-bottom: 36px; }
+.part-head .num { font-family: var(--font-mono); font-size: clamp(48px, 8vw, 84px); font-weight: 600; color: var(--yellow); line-height: .9; grid-row: span 2; }
+.part-head.red .num { color: var(--red); }
+.part-head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 900; }
+.part-head p { color: var(--soft); }
+.block { margin-top: 56px; }
+.block > h3 { font-size: clamp(20px, 2.6vw, 26px); font-weight: 700; margin-bottom: 18px; }
+.block > h3 .later { display: inline-block; vertical-align: middle; margin-left: 8px; font-size: 13px; font-weight: 500; color: var(--yellow); border: 1px solid var(--yellow); border-radius: 999px; padding: 2px 10px; }
+.block > h3 small { display: block; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+
+/* compare */
+.compare { display: grid; gap: 12px; }
+.cmp { display: grid; grid-template-columns: 1fr auto 1.2fr; gap: 14px; align-items: center; }
+.cmp .old, .cmp .new { padding: 16px 18px; border-radius: 10px; border: 1px solid var(--line); display: flex; gap: 12px; align-items: center; min-width: 0; }
+.cmp .old { color: var(--muted); }
+.cmp .new { background: var(--surface); border-color: color-mix(in srgb, var(--yellow) 55%, var(--line)); }
+.cmp .new b { display: block; color: var(--fg); }
+.cmp .new span { font-size: 14px; color: var(--muted); }
+.dot { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 900; font-size: 14px; color: #15161a; }
+.dot.x { background: var(--red); color: #fff; } .dot.o { background: var(--green); }
+.arrow { color: var(--yellow); font-size: 22px; font-weight: 900; }
+
+/* flow */
+.flow { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; position: relative; }
+.flow::before { content: ""; position: absolute; left: 6%; right: 6%; top: 32px; border-top: 2px dashed var(--line); }
+.flow li { position: relative; text-align: center; font-size: 14px; color: var(--soft); }
+.flow .b { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 10px; display: grid; place-items: center; font-weight: 900; color: #15161a; background: var(--yellow); font-size: 17px; }
+.flow .b.r { background: var(--red); } .flow .b.g { background: var(--green); } .flow .b.bl { background: var(--blue); }
+.flow li strong { display: block; color: var(--fg); }
+.rules { margin-top: 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.rule { background: var(--surface); border-radius: 10px; padding: 18px; display: flex; gap: 14px; align-items: center; }
+.rule .n { font-family: var(--font-mono); font-size: 30px; font-weight: 600; }
+.rule b { display: block; } .rule span { color: var(--muted); font-size: 14px; }
+
+/* media */
+.media { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+video { display: block; width: 100%; max-width: 100%; border-radius: 10px; background: #000; border: 1px solid var(--line); }
+.vcap { margin-top: 8px; font-size: 13px; color: var(--muted); }
+.side h4 { margin: 0 0 10px; color: var(--yellow); font-size: 16px; }
+.side ul { margin: 0; padding-left: 18px; color: var(--soft); display: grid; gap: 8px; }
+.side .what { font-size: 18px; font-weight: 700; color: var(--fg); margin-bottom: 14px; }
+.simref { display: flex; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 10px; margin-bottom: 18px; }
+.simref img { width: 112px; aspect-ratio: 16/9; object-fit: cover; border-radius: 6px; flex: none; }
+.simref .mono { color: var(--muted); font-size: 11px; }
+.simref b { display: block; color: var(--yellow); }
+
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+figure { margin: 0; }
+figure img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block; }
+figcaption { margin-top: 8px; font-size: 14px; color: var(--muted); }
+figcaption b { color: var(--fg); margin-right: 6px; }
+
+.map { display: grid; gap: 10px; }
+.map-row { display: grid; grid-template-columns: 140px 24px 140px minmax(0, 1fr) auto; gap: 14px; align-items: center; background: var(--surface); border-radius: 10px; padding: 10px 16px 10px 10px; }
+.map-row img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 6px; }
+.map-row .arrow { text-align: center; }
+.map-row b { display: block; } .map-row span { color: var(--muted); font-size: 14px; }
+.chip { border: 1px solid var(--green); color: var(--green); border-radius: 999px; padding: 3px 12px; font-size: 13px; white-space: nowrap; }
+
+/* practice */
+.practice { display: grid; gap: 64px; }
+.pnum { font-family: var(--font-mono); color: var(--yellow); }
+.portrait { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.portrait video, .portrait img { aspect-ratio: 9/16; object-fit: cover; width: 100%; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.portrait figure { position: relative; }
+.portrait figcaption { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); margin: 0; white-space: nowrap; background: var(--bg); border: 1px solid currentColor; border-radius: 999px; padding: 3px 12px; font-weight: 700; font-size: 13px; }
+
+/* failures */
+.fail { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 24px; }
+.happened { margin-top: 12px; border: 1px solid color-mix(in srgb, var(--red) 60%, var(--line)); border-radius: 10px; padding: 12px 16px; color: var(--soft); }
+.happened b { color: var(--red); margin-right: 8px; }
+.cf { display: grid; gap: 12px; align-content: start; }
+.cf div { background: var(--surface); border-radius: 10px; padding: 16px 18px; }
+.cf h4 { margin: 0 0 8px; font-size: 16px; }
+.cf .c h4 { color: var(--red); } .cf .f h4 { color: var(--green); }
+.cf ul { margin: 0; padding-left: 18px; color: var(--soft); display: grid; gap: 6px; }
+.lessons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.lesson { background: var(--surface); border-radius: 10px; padding: 20px; }
+.lesson .n { font-family: var(--font-mono); font-weight: 600; }
+.lesson h4 { margin: 6px 0 6px; font-size: 19px; }
+.lesson p { color: var(--muted); font-size: 15px; }
+.goal { margin-top: 16px; border: 1px solid var(--yellow); border-radius: 10px; padding: 22px; display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: center; justify-content: space-between; }
+.goal h4 { margin: 4px 0 0; font-size: clamp(18px, 2.4vw, 24px); }
+.cells { display: flex; gap: 6px; align-items: center; }
+.cells i { width: 22px; height: 36px; border-radius: 4px; border: 1px solid var(--line); }
+.cells i.on { background: var(--yellow); border-color: var(--yellow); }
+.cells span { margin-left: 10px; font-family: var(--font-mono); color: var(--yellow); font-weight: 600; }
+footer { border-top: 1px solid var(--line); margin-top: 72px; }
+footer .wrap { padding-block: 28px 40px; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+@media (max-width: 860px) {
+  .media, .fail { grid-template-columns: 1fr; }
+  .grid3, .lessons, .rules { grid-template-columns: 1fr 1fr; }
+  .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 22px; }
+  .flow::before { display: none; }
+  .cmp { grid-template-columns: 1fr; gap: 6px; }
+  .cmp .arrow { transform: rotate(90deg); justify-self: center; }
+  .map-row { grid-template-columns: 1fr 24px 1fr; }
+  .map-row > div, .map-row .chip { grid-column: 1 / -1; }
+  .map-row .chip { justify-self: start; }
+}
+@media (max-width: 520px) {
+  .grid3, .lessons, .rules { grid-template-columns: 1fr; }
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .portrait { grid-template-columns: 1fr 1fr; }
+  .portrait > :first-child { grid-column: 1 / -1; max-width: 300px; justify-self: center; width: 100%; }
+  .nav .brand { display: none; }
+  .nav ul { margin-left: 0; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="섹션">
+  <div class="wrap">
+    <a class="brand" href="#top">SAFY <b>교육독</b></a>
+    <ul>
+      <li><a class="tab" href="#concept">01 컨셉</a></li>
+      <li><a class="tab" href="#simulation">02 시뮬레이션</a></li>
+      <li><a class="tab" href="#practice">03 실습</a></li>
+      <li><a class="tab" href="#failures">04 실패사례</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <img src="img/cover.jpg" alt="시뮬레이터 공장 도크 위에서 초록 불을 켠 로봇독">
+  <div class="wrap">
+    <span class="tag mono">Factory Quest · Physical AI</span>
+    <h1>현장 신입을 위한 교육독</h1>
+    <p class="lead">보고 · 묻고 · 기억하고 · 다시 가르치는 SAFY 스마트 안전교육 로봇독</p>
+    <p class="meta">Hiwonder MechDog · 13팀</p>
+  </div>
+</header>
+<div class="hazard" role="presentation"></div>
+
+<main>
+<!-- 01 -->
+<section class="part wrap" id="concept">
+  <div class="part-head"><span class="num">01</span><h2>컨셉</h2><p>신입의 반응에 따라 행동을 바꾸는 로봇</p></div>
+  <div class="compare">
+    <div class="cmp"><div class="old"><span class="dot x">✕</span>강사가 일방적으로 설명</div><span class="arrow">→</span><div class="new"><span class="dot o">✓</span><div><b>로봇이 현장 구역을 직접 안내</b><span>신입이 로봇을 따라 실제 구역을 돌며 배움</span></div></div></div>
+    <div class="cmp"><div class="old"><span class="dot x">✕</span>이해했는지 확인하기 어려움</div><span class="arrow">→</span><div class="new"><span class="dot o">✓</span><div><b>카메라 인식 + 퀴즈로 바로 확인</b><span>LED · 소리로 정답 · 오답을 즉시 알려 줌</span></div></div></div>
+    <div class="cmp"><div class="old"><span class="dot x">✕</span>틀린 내용도 다시 짚지 않음</div><span class="arrow">→</span><div class="new"><span class="dot o">✓</span><div><b>틀린 구역만 기억했다가 재교육</b><span>2바퀴째에는 힌트를 먼저 주고 다시 확인</span></div></div></div>
+  </div>
+
+  <div class="block">
+    <h3><small>SCENARIO</small>한 바퀴 돌고, 틀린 곳만 다시</h3>
+    <ol class="flow">
+      <li><div class="b">출발</div><strong>노란 선 보행</strong>로봇을 따라 이동</li>
+      <li><div class="b">①</div><strong>보호구 점검</strong>안전모 인식 → 퀴즈</li>
+      <li><div class="b r">!</div><strong>장애물 감지</strong>정지 → 자동 재개</li>
+      <li><div class="b">②</div><strong>품질 검사</strong>불량 부품 퀴즈</li>
+      <li><div class="b">③</div><strong>비상 정지</strong>버튼 인식 → 시연</li>
+      <li><div class="b g">2바퀴</div><strong>틀린 구역만</strong>힌트 먼저</li>
+      <li><div class="b bl">결과</div><strong>리포트</strong>점수 · 오답 · 다음 단계</li>
+    </ol>
+    <div class="rules">
+      <div class="rule"><span class="n" style="color:var(--green)">0회</span><div><b>초록 LED · 성공음</b><span>다음 구역으로 이동</span></div></div>
+      <div class="rule"><span class="n" style="color:var(--red)">1회</span><div><b>빨간 LED · 경고음</b><span>재교육 리스트에 저장</span></div></div>
+      <div class="rule"><span class="n" style="color:var(--yellow)">2회</span><div><b>같은 구역 2번 오답</b><span>설명을 처음부터 다시</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="part wrap" id="simulation">
+  <div class="part-head"><span class="num">02</span><h2>시뮬레이션</h2><p>실제 로봇에 올리기 전, 3D 공장에서 교육 흐름을 먼저 확인</p></div>
+
+  <div class="block">
+    <h3><small>SIMULATION · 1:03</small>현장 실습 게임 · 신입이 로봇독을 따라 실습</h3>
+    <div class="grid3" style="margin-bottom:24px">
+      <figure><img loading="lazy" src="img/p_0c.jpg" alt=""><figcaption><b>출발</b>도크에서 로봇독과 만남</figcaption></figure>
+      <figure><img loading="lazy" src="img/p_1c.jpg" alt=""><figcaption><b>동행 이동</b>로봇독 뒤를 따라 걸음</figcaption></figure>
+      <figure><img loading="lazy" src="img/p_2c.jpg" alt=""><figcaption><b>① 보호구 착용</b>필요한 것만 골라 착용</figcaption></figure>
+      <figure><img loading="lazy" src="img/p_3c.jpg" alt=""><figcaption><b>② 위험구역</b>기름 샌 곳에 라바콘 설치</figcaption></figure>
+      <figure><img loading="lazy" src="img/p_4c.jpg" alt=""><figcaption><b>③ 불량품 분리</b>불량 부품 → 불량품 상자</figcaption></figure>
+      <figure><img loading="lazy" src="img/p_5c.jpg" alt=""><figcaption><b>LED 피드백</b>틀리면 빨간 LED 경고</figcaption></figure>
+    </div>
+    <div class="media">
+      <div><video controls preload="metadata" playsinline poster="img/p_1.jpg" src="v/practice.mp4"></video>
+        <p class="vcap">플레이어가 신입 작업자 캐릭터를 직접 움직입니다</p></div>
+      <div class="side"><h4>앞 영상과 다른 점</h4><ul><li>로봇독이 앞장서고 신입이 뒤를 따라 이동</li><li>설명만 듣지 않고 신입이 직접 행동</li><li>보호구 착용 · 라바콘 설치 · 불량품 분리</li><li>결과를 LED로 바로 알려 줌</li><li>틀린 구역은 기억했다가 다시 방문</li></ul></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- 03 -->
+<section class="part wrap" id="practice">
+  <div class="part-head"><span class="num">03</span><h2>실습</h2><p>실제 MechDog로 구현한 기능 4가지</p></div>
+  <div class="practice">
+    <div class="block" style="margin:0">
+      <h3><small class="pnum">PRACTICE 1</small>선 따라 이동</h3>
+      <div class="media">
+        <video controls preload="metadata" playsinline poster="img/v2_2.jpg" src="v/line.mp4"></video>
+        <div class="side">
+          <div class="simref"><img loading="lazy" src="img/p_1c.jpg" alt=""><div><span class="mono">시뮬레이션에서는</span><b>노란 안내선 보행</b></div></div>
+          <p class="what">책상 위에 놓은 선을 카메라로 보며 따라 걷기</p>
+          <ul><li>라인 추적으로 선 위치를 보고 방향 조정</li><li>교육 시작 시 신입을 구역까지 안내</li><li>선을 놓친 경우 → <a href="#failures">04 실패사례</a></li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="block" style="margin:0">
+      <h3><small class="pnum">PRACTICE 2</small>옷 구별</h3>
+      <div class="media">
+        <video controls preload="metadata" playsinline poster="img/v3_4.jpg" src="v/clothes.mp4"></video>
+        <div class="side">
+          <div class="simref"><img loading="lazy" src="img/p_2c.jpg" alt=""><div><span class="mono">시뮬레이션에서는</span><b>보호구 점검</b></div></div>
+          <p class="what">휴대폰 속 인물 사진으로 작업복 착용 여부 구별</p>
+          <ul><li>로봇 카메라 화면을 노트북에서 확인</li><li>안전 조끼 사진과 일반 옷 사진을 번갈아 테스트</li><li>현장에서는 보호구 착용 점검으로 활용</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="block" style="margin:0">
+      <h3><small class="pnum">PRACTICE 3</small>위험지대 바리게이트 인지</h3>
+      <div class="media">
+        <video controls preload="metadata" playsinline poster="img/v4_3.jpg" src="v/barricade.mp4"></video>
+        <div class="side">
+          <div class="simref"><img loading="lazy" src="img/p_3c.jpg" alt=""><div><span class="mono">시뮬레이션에서는</span><b>위험 구역 · 장애물</b></div></div>
+          <p class="what">컵 바리게이트를 놓고 치우며 LED 반응 확인</p>
+          <ul><li>바리게이트 상태에 따라 LED 빨강 ↔ 초록</li><li>위험 구역에 다가가면 경고하는 장면</li><li>LED 색만 보고도 위험 여부를 바로 파악</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="block" style="margin:0">
+      <h3><small class="pnum">PRACTICE 4</small>제품 구별</h3>
+      <div class="media">
+        <div class="portrait">
+          <video controls preload="metadata" playsinline poster="img/v7_1.jpg" src="v/product.mp4"></video>
+          <figure><img loading="lazy" src="img/v7_4.jpg" alt="제품 ①을 보여 주자 빨간 LED"><figcaption style="color:var(--red)">제품 ① → 빨간 LED</figcaption></figure>
+          <figure><img loading="lazy" src="img/v7_9.jpg" alt="제품 ②를 보여 주자 초록 LED"><figcaption style="color:var(--green)">제품 ② → 초록 LED</figcaption></figure>
+        </div>
+        <div class="side">
+          <div class="simref"><img loading="lazy" src="img/p_4c.jpg" alt=""><div><span class="mono">시뮬레이션에서는</span><b>품질 검사</b></div></div>
+          <p class="what">테이프 롤을 제품으로 보고 LED 색으로 구별</p>
+          <ul><li>카메라에 제품을 보여 주면 LED가 빨강 / 초록으로 바뀜</li><li>정상 · 불량 부품을 색으로 단순화</li><li>색을 잘못 인식한 경우 → <a href="#failures">04 실패사례</a></li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><small>SIMULATION → REAL</small>시뮬레이션 기능을 실제 MechDog로</h3>
+    <div class="map">
+      <div class="map-row"><img loading="lazy" src="img/p_1c.jpg" alt="시뮬레이션 안내선 보행"><span class="arrow">→</span><img loading="lazy" src="img/v2_2.jpg" alt="실제 선 따라 이동"><div><b>노란 안내선 보행</b><span>바닥 선을 카메라로 추적 (라인 추적)</span></div><span class="chip">선 따라 이동</span></div>
+      <div class="map-row"><img loading="lazy" src="img/p_2c.jpg" alt="시뮬레이션 보호구 점검"><span class="arrow">→</span><img loading="lazy" src="img/v3_4.jpg" alt="실제 옷 구별"><div><b>보호구 점검</b><span>카메라로 작업복 착용 여부 구별</span></div><span class="chip">옷 구별</span></div>
+      <div class="map-row"><img loading="lazy" src="img/p_3c.jpg" alt="시뮬레이션 위험 구역"><span class="arrow">→</span><img loading="lazy" src="img/v4_3.jpg" alt="실제 바리게이트 인지"><div><b>위험 구역 · 장애물</b><span>바리게이트를 인식해 LED로 경고</span></div><span class="chip">위험지대 바리게이트 인지</span></div>
+      <div class="map-row"><img loading="lazy" src="img/p_4c.jpg" alt="시뮬레이션 품질 검사"><span class="arrow">→</span><img loading="lazy" src="img/v7_land.jpg" alt="실제 제품 구별"><div><b>품질 검사</b><span>색으로 정상 · 불량 제품 구별 → LED 색</span></div><span class="chip">제품 구별</span></div>
+    </div>
+    <p class="vcap">MechDog 카메라의 색 인식 · 라인 추적 기능으로 대부분의 인식을 색으로 단순화했습니다.</p>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="part wrap" id="failures">
+  <div class="part-head red"><span class="num">04</span><h2>실패사례</h2><p>안 된 것, 원인, 다음에 바꿀 것</p></div>
+
+  <div class="block" style="margin-top:0">
+    <h3><small>FAILURE 1</small>선 따라 이동 <span class="later">추후 선 없이 이동할 것</span></h3>
+    <div class="fail">
+      <div><video controls preload="metadata" playsinline poster="img/v1_5.jpg" src="v/line_fail.mp4"></video>
+        <p class="happened"><b>무슨 일이</b>걷다가 선을 벗어나 사람이 로봇을 다시 잡아 옮김</p></div>
+      <div class="cf">
+        <div class="c"><h4>✕ 원인 (추정)</h4><ul><li>선이 카메라 시야에서 벗어남</li><li>선과 책상 무늬의 색 대비가 약함</li><li>케이블이 로봇 움직임을 당김</li></ul></div>
+        <div class="f"><h4>✓ 다음 대응</h4><ul><li>선을 놓치면 제자리 회전으로 다시 찾기</li><li>대비가 큰 테이프 선 사용</li><li>보행 속도를 낮춰 재시험</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><small>FAILURE 2</small>제품 구별</h3>
+    <div class="fail">
+      <div><video controls preload="metadata" playsinline poster="img/v5_3.jpg" src="v/product_fail.mp4"></video>
+        <p class="happened"><b>무슨 일이</b>빨강 공을 보여 줬는데 LED가 초록 · 파랑으로도 바뀜</p></div>
+      <div class="cf">
+        <div class="c"><h4>✕ 원인 (추정)</h4><ul><li>조명에 따라 색 인식 값이 흔들림</li><li>공과 카메라 거리가 계속 바뀜</li><li>색 판정 기준값이 넓음</li></ul></div>
+        <div class="f"><h4>✓ 다음 대응</h4><ul><li>시연 장소 조명에서 기준값 재조정</li><li>2회 연속 같을 때만 판정</li><li>공과 카메라 거리 고정</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><small>LESSONS</small>실패에서 배운 것</h3>
+    <div class="lessons">
+      <div class="lesson"><span class="n" style="color:var(--yellow)">1</span><h4>시뮬레이션 ≠ 현실</h4><p>화면에서는 완벽했던 인식이 실제 조명 · 거리에서 흔들림</p></div>
+      <div class="lesson"><span class="n" style="color:var(--green)">2</span><h4>한 번에 판정하지 않기</h4><p>같은 결과가 연속으로 나올 때만 정답 · 오답 판정</p></div>
+      <div class="lesson"><span class="n" style="color:var(--blue)">3</span><h4>놓쳤을 때의 행동 정하기</h4><p>선을 놓치거나 인식이 안 되면 로봇이 할 일을 미리 정함</p></div>
+    </div>
+    <div class="goal">
+      <div><span class="mono" style="color:var(--yellow)">다음 목표 · 계획서 기준</span><h4>전체 시나리오 10회 반복 테스트 중 8회 성공</h4></div>
+      <div class="cells" aria-label="10회 중 8회"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><span>8 / 10</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>SAFY 스마트 안전교육 로봇독 · 현장 신입을 위한 교육독 · 13팀</span><a href="https://dididip.github.io/safy-robotdog-sim" target="_blank" rel="noopener">시뮬레이션 체험하기</a></div></footer>
+
+<script>
+// play one video at a time
+const vids = [...document.querySelectorAll('video')];
+vids.forEach(v => v.addEventListener('play', () => vids.forEach(o => { if (o !== v) o.pause(); })));
+// highlight current section in the nav
+const tabs = [...document.querySelectorAll('.nav a.tab')];
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle('on', t.getAttribute('href') === '#' + e.target.id)); });
+}, { rootMargin: '-45% 0px -50% 0px' });
+document.querySelectorAll('section.part').forEach(s => io.observe(s));
+</script>
+</body>
+</html>
